@@ -1,1 +1,8 @@
 venv/
+Data Ingestion/attention.pdf
+Data Ingestion/records.xml
+Data Ingestion/speech.txt
+*.txt
+*.pdf
+*.xml
+*.json
