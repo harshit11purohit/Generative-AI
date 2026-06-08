@@ -6,3 +6,6 @@ Data Ingestion/speech.txt
 *.pdf
 *.xml
 *.json
+chroma_db/
+faiss_index/
+.env
