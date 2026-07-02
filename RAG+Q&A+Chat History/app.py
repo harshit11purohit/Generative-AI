@@ -76,9 +76,6 @@ if api_key:
         
         history_aware_retriever=create_history_aware_retriever(llm,retriever,contextualize_q_prompt)
 
-        ## Answer question
-
-        # Answer question
         system_prompt = (
                 "You are an assistant for question-answering tasks. "
                 "Use the following pieces of retrieved context to answer "
@@ -105,7 +102,8 @@ if api_key:
             return st.session_state.store[session_id]
         
         conversational_rag_chain=RunnableWithMessageHistory(
-            rag_chain,get_session_history,
+            rag_chain,
+            get_session_history,
             input_messages_key="input",
             history_messages_key="chat_history",
             output_messages_key="answer"
