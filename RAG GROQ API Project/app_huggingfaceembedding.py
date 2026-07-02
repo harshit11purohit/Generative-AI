@@ -32,7 +32,7 @@ prompt=ChatPromptTemplate.from_template(
     <context>
     {context}
     <context>
-    Question:{input}
+    Question:{input} 
 
     """
 
@@ -76,5 +76,33 @@ if user_prompt:
 
 
 
+'''
+def create_vector_embedding():
+    if "vectors" not in st.session_state:
+        docs = PyPDFDirectoryLoader("research_papers").load()
+        final_documents = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200).split_documents(docs[:50])
+        vectors = FAISS.from_documents(final_documents, embeddings)
+        retriever = vectors.as_retriever(search_kwargs={"k": 3})
+        document_chain = create_stuff_documents_chain(llm, prompt)
+        st.session_state.retrieval_chain = create_retrieval_chain(retriever, document_chain)
+        st.session_state.vectors = vectors
 
+st.title("RAG Document Q&A With Groq")
+user_prompt = st.text_input("Enter your query from research paper")
+
+if st.button("Document Embedding"):
+    create_vector_embedding()
+    st.success("Vector Database Ready")
+
+if user_prompt:
+    if "retrieval_chain" not in st.session_state:
+        st.warning("Create embeddings first")
+    else:
+        response = st.session_state.retrieval_chain.invoke({"input": user_prompt})
+        st.write(response["answer"])
+        with st.expander("Document Similarity Search"):
+            for doc in response["context"]:
+                st.write(doc.page_content)
+                st.write("----------------")
+'''
 
